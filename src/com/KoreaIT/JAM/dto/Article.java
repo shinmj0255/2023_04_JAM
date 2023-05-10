@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class Article {
 	public int id;
+	public int memberId;
 	public LocalDateTime regDate;
 	public LocalDateTime updateDate;
 	public String title;
@@ -14,6 +15,7 @@ public class Article {
 	
 	public Article(Map<String, Object> articleMap) {
 		this.id = (int) articleMap.get("id");
+		this.memberId = (int) articleMap.get("memberId");
 		this.regDate = (LocalDateTime) articleMap.get("regDate");
 		this.updateDate = (LocalDateTime) articleMap.get("updateDate");
 		this.title = (String) articleMap.get("title");
