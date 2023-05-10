@@ -6,30 +6,33 @@ CREATE TABLE article(
     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL,
+    memberId INT UNSIGNED NOT NULL AFTER updateDate,
     title VARCHAR(100) NOT NULL,
     `body` TEXT NOT NULL
 );
 
+
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
+memberId = 1,
 title = '제목1',
 `body` = '내용1';
 
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
+memberId = 1,
 title = '제목2',
 `body` = '내용2';
 
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
+memberId = 1,
 title = '제목3',
 `body` = '내용3';
 
-SELECT *
-FROM article;
 
 CREATE TABLE `member`(
     id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -47,5 +50,17 @@ loginId = 'test1',
 loginPw = 'test1',
 `name` = 'test1';
 
-SELECT *
-FROM `member`;
+SELECT * FROM `member`;
+SELECT * FROM article;
+
+SELECT a.*, m.`name` AS writerName
+FROM article AS a
+INNER JOIN `member` AS m
+ON a.memberId = m.id
+ORDER BY a.id DESC;
+
+SELECT a.*, m.`name` AS writerName
+FROM article AS a
+INNER JOIN `member` AS m
+ON a.memberId = m.id
+WHERE a.id = 1;

@@ -3,7 +3,7 @@ package com.KoreaIT.JAM.controller;
 import java.sql.Connection;
 import java.util.Scanner;
 
-import com.KoreaIT.JAM.Member;
+import com.KoreaIT.JAM.dto.Member;
 import com.KoreaIT.JAM.service.MemberService;
 import com.KoreaIT.JAM.session.Session;
 
@@ -26,6 +26,12 @@ public class MemberController {
 		String name = null;
 		
 		while(true) {
+			
+			if (Session.isLogined()) {
+				System.out.println("로그아웃 후 이용해주세요");
+				return;
+			}
+			
 			System.out.printf("로그인 아이디 : ");
 			loginId = sc.nextLine().trim();
 			
@@ -94,6 +100,12 @@ public class MemberController {
 	}
 
 	public void doLogin() {
+		
+		if (Session.isLogined()) {
+			System.out.println("이미 로그인된 상태입니다");
+			return;
+		}
+		
 		System.out.println("== 로그인 ==");
 		
 		while(true) {
@@ -129,10 +141,21 @@ public class MemberController {
 			
 			Session.loginedMemeberId = member.id;
 			Session.loginedMember = member;
+			Session.login(member);
 			
 			break;
 		}
 		
+	}
+
+	public void doLogout() {
+		if (!Session.isLogined()) {
+			System.out.println("이미 로그아웃된 상태입니다");
+			return;
+		}
+			
+		Session.logout();
+		System.out.println("로그아웃 되었습니다.");
 	}
 	
 }
