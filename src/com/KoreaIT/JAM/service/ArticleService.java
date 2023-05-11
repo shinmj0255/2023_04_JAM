@@ -7,41 +7,40 @@ import java.util.Map;
 
 import com.KoreaIT.JAM.dao.ArticleDao;
 import com.KoreaIT.JAM.dto.Article;
-import com.KoreaIT.JAM.session.Session;
 
 public class ArticleService {
-
+ 
 	private ArticleDao articleDao;
-	
+
 	public ArticleService(Connection conn) {
 		this.articleDao = new ArticleDao(conn);
 	}
 
 	public int doWrite(String title, String body, int loginedMemeberId) {
-		return articleDao.doWrite(title, body, Session.loginedMemeberId);
+		return articleDao.doWrite(title, body, loginedMemeberId);
 	}
 
-	public List<Article> getArticles() {
-		
-		List<Map<String, Object>> articleListMap = articleDao.getArticles();
-		
+	public List<Article> getArticles(String searchKeyword) {
+
+		List<Map<String, Object>> articleListMap = articleDao.getArticles(searchKeyword);
+
 		List<Article> articles = new ArrayList<>();
-		
-		for(Map<String, Object> articleMap : articleListMap) {
+
+		for (Map<String, Object> articleMap : articleListMap) {
 			articles.add(new Article(articleMap));
 		}
-		
+
 		return articles;
 	}
 
 	public Article getArticle(int id) {
-		
+
 		Map<String, Object> articleMap = articleDao.getArticle(id);
-		
+
 		if (articleMap.isEmpty()) {
 			return null;
 		}
-		
+
 		return new Article(articleMap);
 	}
 
@@ -55,6 +54,10 @@ public class ArticleService {
 
 	public void doDelete(int id) {
 		articleDao.doDelete(id);
+	}
+
+	public int increaseVCnt(int id) {
+		return articleDao.increaseVCnt(id);
 	}
 
 }
